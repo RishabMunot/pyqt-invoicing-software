@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>650</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>9</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="formLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>270</y>
+     <width>331</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Username :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="username_edit">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>10</width>
+        <height>10</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Password :</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="password_edit">
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="login_button">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>360</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Login</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>220</y>
+     <width>131</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Login</string>
+   </property>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>username_edit</tabstop>
+  <tabstop>password_edit</tabstop>
+  <tabstop>login_button</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>username_edit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>435</x>
+     <y>274</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>659</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>password_edit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Dialog</receiver>
+   <slot>open()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>544</x>
+     <y>312</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>login_button</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>439</x>
+     <y>377</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>549</x>
+     <y>413</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
