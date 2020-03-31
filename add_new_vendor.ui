@@ -55,6 +55,9 @@
      </property>
      <item row="3" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>7</number>
+       </property>
        <item>
         <widget class="QLineEdit" name="add_city">
          <property name="sizePolicy">
@@ -85,6 +88,9 @@
      </item>
      <item row="4" column="2">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>7</number>
+       </property>
        <item>
         <widget class="QLineEdit" name="add_district">
          <property name="sizePolicy">
