@@ -8,38 +8,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from add_new_product import Ui_window_anp
-from add_new_vendor import Ui_window_anv
-from window_bill import Ui_window_bill
+from functions_dashboard import *
 
 
 class Ui_MainWindow(object):
-   
-   
-        #functionsQtWidgets.QMainWindow()
-    def createNewBill(self):
-        self.window_anp = QtWidgets.QMainWindow()
-        self.ui = Ui_window_bill()
-        self.ui.setupUi(self.window_anp)
-        self.window_anp.show()
-
-    def editBill(self):
-        self.window_anp = QtWidgets.QMainWindow()
-        self.ui = Ui_window_bill()
-        self.ui.setupUi(self.window_anp)
-        self.window_anp.show()
     
-    def addVendor(self):
-        self.window_anp = QtWidgets.QMainWindow()
-        self.ui = Ui_window_anv()
-        self.ui.setupUi(self.window_anp)
-        self.window_anp.show()
-    def addProduct(self):
-        self.window_anp = QtWidgets.QDialog()
-        self.ui = Ui_window_anp()
-        self.ui.setupUi(self.window_anp)
-        self.window_anp.show()
-   
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 650)
@@ -89,6 +63,16 @@ class Ui_MainWindow(object):
         self.add_vendor.clicked.connect(self.addVendor)
         self.add_product.clicked.connect(self.addProduct)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def createNewBill(self):
+        f_createNewBill(self)
+    
+    def editBill(self):
+        f_editBill(self)
+    def addVendor(self):
+        f_addVendor(self)
+    def addProduct(self):
+        f_addProduct(self)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

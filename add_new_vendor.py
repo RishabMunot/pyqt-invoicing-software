@@ -8,7 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from functions_anv import *
 
 class Ui_window_anv(object):
 
