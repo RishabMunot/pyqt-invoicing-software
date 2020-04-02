@@ -14,12 +14,18 @@ class Ui_window_anv(object):
 
     def clear_data(self):
         print('clear')
+        f_clear_data(self)
     def add_vendor(self):
         print('add')
+        f_add_vendor(self)
+    def new_vendor(self):
+        print('new')
+        f_new_vendor(self)
+
 
     def setupUi(self, window_anv):
         window_anv.setObjectName("window_anv")
-        window_anv.resize(800, 600)
+        window_anv.resize(800, 599)
         font = QtGui.QFont()
         font.setPointSize(9)
         window_anv.setFont(font)
@@ -158,14 +164,31 @@ class Ui_window_anv(object):
         self.button_add = QtWidgets.QPushButton(self.centralwidget)
         self.button_add.setGeometry(QtCore.QRect(570, 480, 131, 41))
         self.button_add.setObjectName("button_add")
+        self.button_new = QtWidgets.QPushButton(self.centralwidget)
+        self.button_new.setGeometry(QtCore.QRect(290, 480, 131, 41))
+        self.button_new.setFlat(False)
+        self.button_new.setObjectName("button_new")
+        self.line = QtWidgets.QFrame(self.centralwidget)
+        self.line.setGeometry(QtCore.QRect(341, 509, 10, 3))
+        self.line.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setObjectName("line")
+        self.line_2 = QtWidgets.QFrame(self.centralwidget)
+        self.line_2.setGeometry(QtCore.QRect(480, 509, 10, 3))
+        self.line_2.setFrameShadow(QtWidgets.QFrame.Plain)
+        self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_2.setObjectName("line_2")
         window_anv.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(window_anv)
         self.statusbar.setObjectName("statusbar")
         window_anv.setStatusBar(self.statusbar)
 
+        self.button_new.setEnabled(False)
+
         self.retranslateUi(window_anv)
         self.button_clear.clicked.connect(self.clear_data)
         self.button_add.clicked.connect(self.add_vendor)
+        self.button_new.clicked.connect(self.new_vendor)
         QtCore.QMetaObject.connectSlotsByName(window_anv)
         window_anv.setTabOrder(self.vendor_name, self.add_line1)
         window_anv.setTabOrder(self.add_line1, self.add_line2)
@@ -193,7 +216,11 @@ class Ui_window_anv(object):
         self.label_3.setText(_translate("window_anv", "Vendor Address"))
         self.add_line2.setPlaceholderText(_translate("window_anv", "Address Line 2"))
         self.button_clear.setText(_translate("window_anv", "Clear"))
+        self.button_clear.setShortcut(_translate("window_anv", "Alt+C"))
         self.button_add.setText(_translate("window_anv", "Add Vendor"))
+        self.button_add.setShortcut(_translate("window_anv", "Ctrl+S"))
+        self.button_new.setText(_translate("window_anv", "New"))
+        self.button_new.setShortcut(_translate("window_anv", "Alt+N"))
 
 
 if __name__ == "__main__":

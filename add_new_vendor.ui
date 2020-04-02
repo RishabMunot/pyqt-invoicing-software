@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>599</height>
    </rect>
   </property>
   <property name="font">
@@ -247,6 +247,9 @@
     <property name="text">
      <string>Clear</string>
     </property>
+    <property name="shortcut">
+     <string>Alt+C</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="button_add">
     <property name="geometry">
@@ -259,6 +262,60 @@
     </property>
     <property name="text">
      <string>Add Vendor</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+S</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="button_new">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>480</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>New</string>
+    </property>
+    <property name="shortcut">
+     <string>Alt+N</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>341</x>
+      <y>509</y>
+      <width>10</width>
+      <height>3</height>
+     </rect>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>509</y>
+      <width>10</width>
+      <height>3</height>
+     </rect>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
    </widget>
   </widget>
@@ -276,10 +333,6 @@
   <tabstop>vendor_pan_no</tabstop>
   <tabstop>button_add</tabstop>
   <tabstop>button_clear</tabstop>
-  <tabstop>lineEdit_15</tabstop>
-  <tabstop>lineEdit_16</tabstop>
-  <tabstop>lineEdit_12</tabstop>
-  <tabstop>lineEdit_11</tabstop>
  </tabstops>
  <resources/>
  <connections>
