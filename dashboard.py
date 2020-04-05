@@ -55,8 +55,6 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-
-
         self.retranslateUi(MainWindow)
         self.create_new_bill.clicked.connect(self.createNewBill)
         self.edit_bill.clicked.connect(self.editBill)
