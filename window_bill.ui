@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1658</width>
+    <width>1722</width>
     <height>857</height>
    </rect>
   </property>
@@ -311,11 +311,17 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>587</x>
+       <x>-3</x>
        <y>4</y>
-       <width>141</width>
+       <width>1721</width>
        <height>61</height>
       </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
      <property name="font">
       <font>
@@ -327,6 +333,9 @@
      </property>
      <property name="text">
       <string>TAX INVOICE</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QLineEdit" name="p_rate_8">
@@ -4443,7 +4452,7 @@
      <rect>
       <x>1300</x>
       <y>330</y>
-      <width>341</width>
+      <width>401</width>
       <height>152</height>
      </rect>
     </property>
@@ -4538,10 +4547,10 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>1340</x>
-      <y>500</y>
+      <x>1310</x>
+      <y>650</y>
       <width>131</width>
-      <height>111</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="title">
@@ -4557,14 +4566,17 @@
       </rect>
      </property>
      <property name="text">
-      <string>Find</string>
+      <string>Load</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+F</string>
      </property>
     </widget>
     <widget class="QPushButton" name="edit_save">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>70</y>
+       <y>110</y>
        <width>111</width>
        <height>31</height>
       </rect>
@@ -4572,31 +4584,8 @@
      <property name="text">
       <string>Save</string>
      </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_2">
-    <property name="geometry">
-     <rect>
-      <x>1490</x>
-      <y>500</y>
-      <width>131</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>SAVE BILL</string>
-    </property>
-    <widget class="QPushButton" name="save_bill">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>111</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Save</string>
+     <property name="shortcut">
+      <string>Ctrl+Alt+Ś</string>
      </property>
     </widget>
     <widget class="QPushButton" name="print_bill">
@@ -4611,7 +4600,65 @@
      <property name="text">
       <string>Print</string>
      </property>
+     <property name="shortcut">
+      <string>Ctrl+P</string>
+     </property>
     </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>1310</x>
+      <y>510</y>
+      <width>131</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>SAVE BILL</string>
+    </property>
+    <widget class="QPushButton" name="save_bill">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Save</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+S</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="new_bill">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>New</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+N</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QListWidget" name="listOfBills">
+    <property name="geometry">
+     <rect>
+      <x>1460</x>
+      <y>520</y>
+      <width>241</width>
+      <height>281</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

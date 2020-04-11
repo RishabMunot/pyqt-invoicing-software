@@ -38,14 +38,18 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
 from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot,Qt
 from openpyxl import Workbook
 from openpyxl import load_workbook
+from shutil import copyfile
+from os import rename
 
 wb = 0
 sheet = 1
-data = {}
+data = []
 names =[]
+
+init_name = ""
 
 def f_clear_data(self):
     self.product_name.setText("")
@@ -58,7 +62,7 @@ def f_add_product(self):
     global wb,sheet
     id = self.product_id.text()
     name = self.product_name.text()
-    uom = self.uom.text() +" "+self.comboBox.currentText()
+    uom = self.uom.text() +" " + self.comboBox.currentText()
     cgst = self.cgst.text()
     sgst = self.sgst.text()
     hsn = self.hsn_code.text()
@@ -92,6 +96,11 @@ def f_add_product(self):
             self.button_find.setEnabled(False)
             self.button_edit.setEnabled(False)
             self.button_delete.setEnabled(False)
+            readyProducts(self)
+            from os.path import isfile
+            if not isfile("records/productwise_record/"+name+".xlsx"):
+                copyfile('data/product-wise-record.xlsx',"records/productwise_record/"+name+".xlsx")
+
 
 def f_delete_product(self):
     global sheet,wb
@@ -121,6 +130,7 @@ def f_delete_product(self):
         self.button_find.setEnabled(True)
         self.button_edit.setEnabled(False)
         self.button_delete.setEnabled(False)
+        readyProducts(self)
         setInputs(self,False)
 
 def f_new_product(self):
@@ -139,21 +149,21 @@ def f_new_product(self):
 def f_edit_product(self):
     id = self.product_id.text()
     name = self.product_name.text()
-    uom = self.uom.text() +" "+self.comboBox.currentText()
+    uom = self.uom.text() +" " + self.comboBox.currentText()
     cgst = self.cgst.text()
     sgst = self.sgst.text()
     hsn = self.hsn_code.text()
-    
-    msg = QMessageBox()
-    msg.setIcon(QMessageBox.Warning)
+    if init_name == name:
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
 
-    msg.setText("Do you want to Edit Product?")
-    msg.setWindowTitle("Edit Product")
-    msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)	
-    
-    retval = msg.exec_()
-    
-    if (retval == 1024):
+        msg.setText("Do you want to Edit Product?")
+        msg.setWindowTitle("Edit Product")
+        msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)	
+        
+        retval = msg.exec_()
+        
+        if (retval == 1024):
             saveAt = str(int(self.product_id.text())-999)
             sheet['A'+saveAt] = id
             sheet['B'+saveAt] = name
@@ -173,29 +183,51 @@ def f_edit_product(self):
             self.button_find.setEnabled(False)
             self.button_edit.setEnabled(False)
             self.button_delete.setEnabled(False)
+            readyProducts(self)
+    else:
+        self.product_name.setText(name)
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText("Cannot change product name?")
+        msg.setWindowTitle("Edit Product")
+        msg.setStandardButtons(QMessageBox.Ok)	
+        retval = msg.exec_()
 
 def f_find_product(self):
-    global data,names
-    find = self.product_name.text()
-    if(find in names):
-        setInputs(self,True)
-        self.button_edit.setEnabled(True)
-        self.button_delete.setEnabled(True)
-        self.button_new.setEnabled(False)
-        self.button_clear.setEnabled(False)
-        self.button_new.setEnabled(False)
-        self.product_id.setText(data[find][0])
-        self.product_name.setText(data[find][1])
-        self.uom.setText(data[find][2])
-        self.hsn_code.setText(data[find][3])
-        self.cgst.setText(data[find][4])
-        self.sgst.setText(data[find][5])
+    global data,names,init_name
+    aa = self.listOfProducts.currentItem().text().split("-")
+    init_name = aa[0]
+    pro_name = aa[0]
+    pro_uom = aa[1]
+    find = 0
+    for i in range(len(data)):
+        if data[i][1] == pro_name and data[i][2] == pro_uom:
+            find = i
+    print(find)
+    setInputs(self,True)
+    self.button_edit.setEnabled(True)
+    self.button_delete.setEnabled(True)
+    self.button_new.setEnabled(False)
+    self.button_clear.setEnabled(False)
+    self.button_new.setEnabled(False)
+    self.product_id.setText(data[find][0])
+    self.product_name.setText(data[find][1])
+    self.uom.setText(data[find][2].split(" ")[0])
+    index = self.comboBox.findText(data[find][2].split(" ")[1], Qt.MatchFixedString)
+    if index >= 0:
+         self.comboBox.setCurrentIndex(index)
+
+    self.hsn_code.setText(data[find][3])
+    self.cgst.setText(data[find][4])
+    self.sgst.setText(data[find][5])
 
 def readyProducts(self):
 
     global wb,sheet,data,names
     wb = load_workbook('data/products.xlsx')
     sheet = wb['Sheet1']
+    names = []
+    data = []
     for i in range(2,sheet.max_row+1):
         name = sheet['B'+str(i)].value
         id = sheet['A'+str(i)].value
@@ -203,9 +235,12 @@ def readyProducts(self):
         hsn = sheet['D'+str(i)].value
         cgst = sheet['E'+str(i)].value
         sgst = sheet['F'+str(i)].value
-        data[name] = [id,name,uom,hsn,cgst,sgst]
-        names.append(name)
+        data.append([id,name,uom,hsn,cgst,sgst])
+        la = name + "-" + uom
+        names.append(la)
     print(data,names)
+    self.listOfProducts.clear()
+    self.listOfProducts.addItems(names)
     self.product_id.setText(str(1000 + sheet.max_row))
 
 def setInputs(self,aa):
