@@ -72,12 +72,21 @@ import copy
 
 
 # os.remove("invoices/45215-Rishab Munot.xlsx")
-a=0
+# a=0
 
-def aa():
-    if a == 1:
-        print(a)
-        return
-    print(0)
+# def aa():
+#     if a == 1:
+#         print(a)
+#         return
+#     print(0)
 
-aa()
+# aa()
+
+
+# Step 1: unzip the window_bill file (in any folder you want)
+# Step 2: open window_bill there are 3 files of use.
+#             a) dashboard.exe 
+#             b) Invoicing.exe
+#             c) folder - Invoicing System 
+# Step 3: Copy Invoicing System folder in C:/ (Strictly!!! No change in file,folder names)
+# Step 4: Shortcuts of above 2 exe files can be created in desktop

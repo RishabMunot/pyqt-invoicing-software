@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_window_bill(object):
     def setupUi(self, window_bill):
         window_bill.setObjectName("window_bill")
-        window_bill.resize(1722, 857)
+        window_bill.resize(1722, 887)
         font = QtGui.QFont()
         font.setPointSize(9)
         window_bill.setFont(font)
@@ -1420,8 +1420,16 @@ class Ui_window_bill(object):
         self.p_gst_amt_14.setLineWidth(1)
         self.p_gst_amt_14.setAlignment(QtCore.Qt.AlignCenter)
         self.p_gst_amt_14.setObjectName("p_gst_amt_14")
+        self.comboBox = QtWidgets.QComboBox(self.frame)
+        self.comboBox.setGeometry(QtCore.QRect(1020, 160, 231, 22))
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.label_9 = QtWidgets.QLabel(self.frame)
+        self.label_9.setGeometry(QtCore.QRect(1020, 126, 112, 27))
+        self.label_9.setObjectName("label_9")
         self.formLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(1300, 330, 401, 152))
+        self.formLayoutWidget.setGeometry(QtCore.QRect(1300, 300, 401, 152))
         self.formLayoutWidget.setObjectName("formLayoutWidget")
         self.formLayout = QtWidgets.QFormLayout(self.formLayoutWidget)
         self.formLayout.setContentsMargins(0, 0, 0, 0)
@@ -1462,7 +1470,7 @@ class Ui_window_bill(object):
         self.amt_bt.setObjectName("amt_bt")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.amt_bt)
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(1310, 650, 131, 151))
+        self.groupBox.setGeometry(QtCore.QRect(1310, 610, 131, 151))
         self.groupBox.setObjectName("groupBox")
         self.edit_find = QtWidgets.QPushButton(self.groupBox)
         self.edit_find.setGeometry(QtCore.QRect(10, 30, 111, 31))
@@ -1474,7 +1482,7 @@ class Ui_window_bill(object):
         self.print_bill.setGeometry(QtCore.QRect(10, 70, 111, 31))
         self.print_bill.setObjectName("print_bill")
         self.groupBox_2 = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox_2.setGeometry(QtCore.QRect(1310, 510, 131, 111))
+        self.groupBox_2.setGeometry(QtCore.QRect(1310, 480, 131, 111))
         self.groupBox_2.setObjectName("groupBox_2")
         self.save_bill = QtWidgets.QPushButton(self.groupBox_2)
         self.save_bill.setGeometry(QtCore.QRect(10, 70, 111, 31))
@@ -1483,12 +1491,18 @@ class Ui_window_bill(object):
         self.new_bill.setGeometry(QtCore.QRect(10, 30, 111, 31))
         self.new_bill.setObjectName("new_bill")
         self.listOfBills = QtWidgets.QListWidget(self.centralwidget)
-        self.listOfBills.setGeometry(QtCore.QRect(1460, 520, 241, 281))
+        self.listOfBills.setGeometry(QtCore.QRect(1460, 490, 241, 281))
         self.listOfBills.setObjectName("listOfBills")
+        self.refresh = QtWidgets.QPushButton(self.centralwidget)
+        self.refresh.setGeometry(QtCore.QRect(1320, 790, 111, 31))
+        self.refresh.setObjectName("refresh")
         window_bill.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(window_bill)
         self.statusbar.setObjectName("statusbar")
         window_bill.setStatusBar(self.statusbar)
+
+        from functions_bill import setForm
+        setForm(self)
 
         self.retranslateUi(window_bill)
         QtCore.QMetaObject.connectSlotsByName(window_bill)
@@ -1599,10 +1613,6 @@ class Ui_window_bill(object):
         window_bill.setTabOrder(self.edit_save, self.scrollArea)
 
     def retranslateUi(self, window_bill):
-
-        from functions_bill import setForm
-        setForm(self)
-
         _translate = QtCore.QCoreApplication.translate
         window_bill.setWindowTitle(_translate("window_bill", "MainWindow"))
         self.p_rate_11.setText(_translate("window_bill", "0"))
@@ -1782,6 +1792,9 @@ class Ui_window_bill(object):
         self.p_gst_amt_10.setText(_translate("window_bill", "0"))
         self.p_gst_amt_7.setText(_translate("window_bill", "0"))
         self.p_gst_amt_14.setText(_translate("window_bill", "0"))
+        self.comboBox.setItemText(0, _translate("window_bill", "Mousami Foods"))
+        self.comboBox.setItemText(1, _translate("window_bill", "Mitesh Dhanji Shah"))
+        self.label_9.setText(_translate("window_bill", "Company Name:"))
         self.label_2.setText(_translate("window_bill", "Total Amount Before Tax"))
         self.label_4.setText(_translate("window_bill", "CGST"))
         self.amt_cgst.setText(_translate("window_bill", "TextLabel"))
@@ -1804,6 +1817,8 @@ class Ui_window_bill(object):
         self.save_bill.setShortcut(_translate("window_bill", "Ctrl+S"))
         self.new_bill.setText(_translate("window_bill", "New"))
         self.new_bill.setShortcut(_translate("window_bill", "Ctrl+N"))
+        self.refresh.setText(_translate("window_bill", "Refresh"))
+        self.refresh.setShortcut(_translate("window_bill", "Ctrl+Alt+Ś"))
 
 
 if __name__ == "__main__":

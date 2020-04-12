@@ -37,62 +37,70 @@ thin_border = Border(left=Side(style='thin'),right=Side(style='thin'),top=Side(s
 
 products_ips = []
 
+through = "Mousami Foods"
+
+
 def setForm(self):
-    try:
-        global x
-        x = self
-        self.date_edit.setDate(QDate.currentDate())
-        import_data()
-        group_inputs(self)
-        set_functionalities(self)
-        import_bill_data()
-        self.listOfBills.clear()
-        self.listOfBills.addItems(listOfBill)
-        self.print_bill.setEnabled(False)
-        self.edit_save.setEnabled(False)
-    except Exception:
-        pass
+    
+    global x
+    print(through)
+    x = self
+    self.date_edit.setDate(QDate.currentDate())
+    import_data()
+    group_inputs(self)
+    set_functionalities(self)
+    import_bill_data(through)
+    self.listOfBills.clear()
+    self.listOfBills.addItems(listOfBill)
+    self.print_bill.setEnabled(False)
+    self.edit_save.setEnabled(False)
+
+def refreshData():
+    import_data()
+    set_functionalities(x)
+
 
 def import_data():
-    try:
-        global products,product_names,vendors,vendors_names
-        wb = load_workbook('data/products.xlsx')
-        product_sheet = wb['Sheet1']
-        for i in range(2,product_sheet.max_row+1):
-            name = product_sheet['B'+str(i)].value
-            id = product_sheet['A'+str(i)].value
-            uom = product_sheet['C'+str(i)].value
-            hsn = product_sheet['D'+str(i)].value
-            cgst = product_sheet['E'+str(i)].value
-            sgst = product_sheet['F'+str(i)].value
-            products[name+"-"+uom] = [id,name,hsn,uom,cgst,sgst]
-            product_names.append(name+"-"+uom)
-        
-        wb = load_workbook('data/vendors.xlsx')
-        product_sheet = wb['Sheet1']
-        for i in range(2,product_sheet.max_row+1):
-            name = product_sheet['A'+str(i)].value
-            line1 = product_sheet['B'+str(i)].value
-            line2 = product_sheet['C'+str(i)].value
-            city = product_sheet['D'+str(i)].value
-            dist = product_sheet['E'+str(i)].value
-            state = product_sheet['F'+str(i)].value
-            pincode = product_sheet['G'+str(i)].value
-            gstNO = product_sheet['H'+str(i)].value
-            panNo = product_sheet['I'+str(i)].value
-            vendors[name] = [name,line1,line2,city,dist,state,pincode,gstNO,panNo]
-            vendors_names.append(name)
-    except Exception:
-        pass
 
-def import_bill_data():
-    try:
-        global listOfBill
-        listOfBill = os.listdir('invoices/')
-        for i in range(len(listOfBill)):
-            listOfBill[i] =listOfBill[i][:-5]
-    except Exception:
-        pass
+    global products,product_names,vendors,vendors_names
+    products = {}
+    product_names = []
+    vendors = {}
+    vendors_names = []
+    wb = load_workbook('C:/Invoicing System/data/products.xlsx')
+    product_sheet = wb['Sheet1']
+    for i in range(2,product_sheet.max_row+1):
+        name = product_sheet['B'+str(i)].value
+        id = product_sheet['A'+str(i)].value
+        uom = product_sheet['C'+str(i)].value
+        hsn = product_sheet['D'+str(i)].value
+        cgst = product_sheet['E'+str(i)].value
+        sgst = product_sheet['F'+str(i)].value
+        products[name+"-"+uom] = [id,name,hsn,uom,cgst,sgst]
+        product_names.append(name+"-"+uom)
+    
+    wb = load_workbook('C:/Invoicing System/data/vendors.xlsx')
+    product_sheet = wb['Sheet1']
+    for i in range(2,product_sheet.max_row+1):
+        name = product_sheet['A'+str(i)].value
+        line1 = product_sheet['B'+str(i)].value
+        line2 = product_sheet['C'+str(i)].value
+        city = product_sheet['D'+str(i)].value
+        dist = product_sheet['E'+str(i)].value
+        state = product_sheet['F'+str(i)].value
+        pincode = product_sheet['G'+str(i)].value
+        gstNO = product_sheet['H'+str(i)].value
+        panNo = product_sheet['I'+str(i)].value
+        vendors[name] = [name,line1,line2,city,dist,state,pincode,gstNO,panNo]
+        vendors_names.append(name)
+
+
+def import_bill_data(x):
+    global listOfBill
+    listOfBill = os.listdir('C:/Invoicing System/'+x+"/invoices")
+    for i in range(len(listOfBill)):
+        listOfBill[i] =listOfBill[i][:-5]
+
 
 def group_inputs(self):
     global el_productnames,products_inputs,vendor_inputs,final_outputs
@@ -162,113 +170,125 @@ def group_inputs(self):
     final_outputs = [self.total_qty,self.total_tax_val,self.total_cgst_amt,self.total_sgst_amt, self.total_total,self.amt_bt,self.amt_cgst,self.amt_sgst,self.amt_gst,self.amt_at]
 
 def set_functionalities(self):
-    try:
-    #adding completers
-        completer = QCompleter(product_names)
-        completer.setCaseSensitivity(False)
-        for i in range(15):
-            el_productnames[i].setCompleter(completer)
+
+#adding completers
+    completer = QCompleter(product_names)
+    completer.setCaseSensitivity(False)
+    for i in range(15):
+        el_productnames[i].setCompleter(completer)
+
+#Listner on product name
+    el_productnames[0].editingFinished.connect(lambda:fillDataProduct(1))
+    el_productnames[1].editingFinished.connect(lambda:fillDataProduct(2))
+    el_productnames[2].editingFinished.connect(lambda:fillDataProduct(3))
+    el_productnames[3].editingFinished.connect(lambda:fillDataProduct(4))
+    el_productnames[4].editingFinished.connect(lambda:fillDataProduct(5))
+    el_productnames[5].editingFinished.connect(lambda:fillDataProduct(6))
+    el_productnames[6].editingFinished.connect(lambda:fillDataProduct(7))
+    el_productnames[7].editingFinished.connect(lambda:fillDataProduct(8))
+    el_productnames[8].editingFinished.connect(lambda:fillDataProduct(9))
+    el_productnames[9].editingFinished.connect(lambda:fillDataProduct(10))
+    el_productnames[10].editingFinished.connect(lambda:fillDataProduct(11))
+    el_productnames[11].editingFinished.connect(lambda:fillDataProduct(12))
+    el_productnames[12].editingFinished.connect(lambda:fillDataProduct(13))
+    el_productnames[13].editingFinished.connect(lambda:fillDataProduct(14))
+    el_productnames[14].editingFinished.connect(lambda:fillDataProduct(15))
+
+#Listner on rate
+    products_inputs[0][4].editingFinished.connect(lambda:fillValues(1))
+    products_inputs[1][4].editingFinished.connect(lambda:fillValues(2))
+    products_inputs[2][4].editingFinished.connect(lambda:fillValues(3))
+    products_inputs[3][4].editingFinished.connect(lambda:fillValues(4))
+    products_inputs[4][4].editingFinished.connect(lambda:fillValues(5))
+    products_inputs[5][4].editingFinished.connect(lambda:fillValues(6))
+    products_inputs[6][4].editingFinished.connect(lambda:fillValues(7))
+    products_inputs[7][4].editingFinished.connect(lambda:fillValues(8))
+    products_inputs[8][4].editingFinished.connect(lambda:fillValues(9))
+    products_inputs[9][4].editingFinished.connect(lambda:fillValues(10))
+    products_inputs[10][4].editingFinished.connect(lambda:fillValues(11))
+    products_inputs[11][4].editingFinished.connect(lambda:fillValues(12))
+    products_inputs[12][4].editingFinished.connect(lambda:fillValues(13))
+    products_inputs[13][4].editingFinished.connect(lambda:fillValues(14))
+    products_inputs[14][4].editingFinished.connect(lambda:fillValues(15))
+
+#Listner on qty
+    products_inputs[0][3].editingFinished.connect(lambda:fillValues(1))
+    products_inputs[1][3].editingFinished.connect(lambda:fillValues(2))
+    products_inputs[2][3].editingFinished.connect(lambda:fillValues(3))
+    products_inputs[3][3].editingFinished.connect(lambda:fillValues(4))
+    products_inputs[4][3].editingFinished.connect(lambda:fillValues(5))
+    products_inputs[5][3].editingFinished.connect(lambda:fillValues(6))
+    products_inputs[6][3].editingFinished.connect(lambda:fillValues(7))
+    products_inputs[7][3].editingFinished.connect(lambda:fillValues(8))
+    products_inputs[8][3].editingFinished.connect(lambda:fillValues(9))
+    products_inputs[9][3].editingFinished.connect(lambda:fillValues(10))
+    products_inputs[10][3].editingFinished.connect(lambda:fillValues(11))
+    products_inputs[11][3].editingFinished.connect(lambda:fillValues(12))
+    products_inputs[12][3].editingFinished.connect(lambda:fillValues(13))
+    products_inputs[13][3].editingFinished.connect(lambda:fillValues(14))
+    products_inputs[14][3].editingFinished.connect(lambda:fillValues(15))
+
+#Listner on CSGT
+    products_inputs[0][6].editingFinished.connect(lambda:fillValues(1))
+    products_inputs[1][6].editingFinished.connect(lambda:fillValues(2))
+    products_inputs[2][6].editingFinished.connect(lambda:fillValues(3))
+    products_inputs[3][6].editingFinished.connect(lambda:fillValues(4))
+    products_inputs[4][6].editingFinished.connect(lambda:fillValues(5))
+    products_inputs[5][6].editingFinished.connect(lambda:fillValues(6))
+    products_inputs[6][6].editingFinished.connect(lambda:fillValues(7))
+    products_inputs[7][6].editingFinished.connect(lambda:fillValues(8))
+    products_inputs[8][6].editingFinished.connect(lambda:fillValues(9))
+    products_inputs[9][6].editingFinished.connect(lambda:fillValues(10))
+    products_inputs[10][6].editingFinished.connect(lambda:fillValues(11))
+    products_inputs[11][6].editingFinished.connect(lambda:fillValues(12))
+    products_inputs[12][6].editingFinished.connect(lambda:fillValues(13))
+    products_inputs[13][6].editingFinished.connect(lambda:fillValues(14))
+    products_inputs[14][6].editingFinished.connect(lambda:fillValues(15))
+
+#Listner on SGST
+    products_inputs[0][8].editingFinished.connect(lambda:fillValues(1))
+    products_inputs[1][8].editingFinished.connect(lambda:fillValues(2))
+    products_inputs[2][8].editingFinished.connect(lambda:fillValues(3))
+    products_inputs[3][8].editingFinished.connect(lambda:fillValues(4))
+    products_inputs[4][8].editingFinished.connect(lambda:fillValues(5))
+    products_inputs[5][8].editingFinished.connect(lambda:fillValues(6))
+    products_inputs[6][8].editingFinished.connect(lambda:fillValues(7))
+    products_inputs[7][8].editingFinished.connect(lambda:fillValues(8))
+    products_inputs[8][8].editingFinished.connect(lambda:fillValues(9))
+    products_inputs[9][8].editingFinished.connect(lambda:fillValues(10))
+    products_inputs[10][8].editingFinished.connect(lambda:fillValues(11))
+    products_inputs[11][8].editingFinished.connect(lambda:fillValues(12))
+    products_inputs[12][8].editingFinished.connect(lambda:fillValues(13))
+    products_inputs[13][8].editingFinished.connect(lambda:fillValues(14))
+    products_inputs[14][8].editingFinished.connect(lambda:fillValues(15))
+
+    vendor_inputs[0].editingFinished.connect(fillVendor)
+
+    completer = QCompleter(vendors_names)
+    completer.setCaseSensitivity(False)
+    self.vendor_name.setCompleter(completer)
+
+#Listener on Buttons
+    self.edit_find.clicked.connect(findClicked)
+    self.new_bill.clicked.connect(newClicked)
+    self.edit_save.clicked.connect(editSaveCliked)
+    self.save_bill.clicked.connect(saveBillClicked)
+    self.print_bill.clicked.connect(printBill)
+    self.refresh.clicked.connect(refreshData)
+
+    self.comboBox.currentIndexChanged.connect(changeCompany)
 
 
-    #Listner on product name
-        el_productnames[0].editingFinished.connect(lambda:fillDataProduct(1))
-        el_productnames[1].editingFinished.connect(lambda:fillDataProduct(2))
-        el_productnames[2].editingFinished.connect(lambda:fillDataProduct(3))
-        el_productnames[3].editingFinished.connect(lambda:fillDataProduct(4))
-        el_productnames[4].editingFinished.connect(lambda:fillDataProduct(5))
-        el_productnames[5].editingFinished.connect(lambda:fillDataProduct(6))
-        el_productnames[6].editingFinished.connect(lambda:fillDataProduct(7))
-        el_productnames[7].editingFinished.connect(lambda:fillDataProduct(8))
-        el_productnames[8].editingFinished.connect(lambda:fillDataProduct(9))
-        el_productnames[9].editingFinished.connect(lambda:fillDataProduct(10))
-        el_productnames[10].editingFinished.connect(lambda:fillDataProduct(11))
-        el_productnames[11].editingFinished.connect(lambda:fillDataProduct(12))
-        el_productnames[12].editingFinished.connect(lambda:fillDataProduct(13))
-        el_productnames[13].editingFinished.connect(lambda:fillDataProduct(14))
-        el_productnames[14].editingFinished.connect(lambda:fillDataProduct(15))
-
-    #Listner on rate
-        products_inputs[0][4].editingFinished.connect(lambda:fillValues(1))
-        products_inputs[1][4].editingFinished.connect(lambda:fillValues(2))
-        products_inputs[2][4].editingFinished.connect(lambda:fillValues(3))
-        products_inputs[3][4].editingFinished.connect(lambda:fillValues(4))
-        products_inputs[4][4].editingFinished.connect(lambda:fillValues(5))
-        products_inputs[5][4].editingFinished.connect(lambda:fillValues(6))
-        products_inputs[6][4].editingFinished.connect(lambda:fillValues(7))
-        products_inputs[7][4].editingFinished.connect(lambda:fillValues(8))
-        products_inputs[8][4].editingFinished.connect(lambda:fillValues(9))
-        products_inputs[9][4].editingFinished.connect(lambda:fillValues(10))
-        products_inputs[10][4].editingFinished.connect(lambda:fillValues(11))
-        products_inputs[11][4].editingFinished.connect(lambda:fillValues(12))
-        products_inputs[12][4].editingFinished.connect(lambda:fillValues(13))
-        products_inputs[13][4].editingFinished.connect(lambda:fillValues(14))
-        products_inputs[14][4].editingFinished.connect(lambda:fillValues(15))
-
-    #Listner on qty
-        products_inputs[0][3].editingFinished.connect(lambda:fillValues(1))
-        products_inputs[1][3].editingFinished.connect(lambda:fillValues(2))
-        products_inputs[2][3].editingFinished.connect(lambda:fillValues(3))
-        products_inputs[3][3].editingFinished.connect(lambda:fillValues(4))
-        products_inputs[4][3].editingFinished.connect(lambda:fillValues(5))
-        products_inputs[5][3].editingFinished.connect(lambda:fillValues(6))
-        products_inputs[6][3].editingFinished.connect(lambda:fillValues(7))
-        products_inputs[7][3].editingFinished.connect(lambda:fillValues(8))
-        products_inputs[8][3].editingFinished.connect(lambda:fillValues(9))
-        products_inputs[9][3].editingFinished.connect(lambda:fillValues(10))
-        products_inputs[10][3].editingFinished.connect(lambda:fillValues(11))
-        products_inputs[11][3].editingFinished.connect(lambda:fillValues(12))
-        products_inputs[12][3].editingFinished.connect(lambda:fillValues(13))
-        products_inputs[13][3].editingFinished.connect(lambda:fillValues(14))
-        products_inputs[14][3].editingFinished.connect(lambda:fillValues(15))
-
-    #Listner on CSGT
-        products_inputs[0][6].editingFinished.connect(lambda:fillValues(1))
-        products_inputs[1][6].editingFinished.connect(lambda:fillValues(2))
-        products_inputs[2][6].editingFinished.connect(lambda:fillValues(3))
-        products_inputs[3][6].editingFinished.connect(lambda:fillValues(4))
-        products_inputs[4][6].editingFinished.connect(lambda:fillValues(5))
-        products_inputs[5][6].editingFinished.connect(lambda:fillValues(6))
-        products_inputs[6][6].editingFinished.connect(lambda:fillValues(7))
-        products_inputs[7][6].editingFinished.connect(lambda:fillValues(8))
-        products_inputs[8][6].editingFinished.connect(lambda:fillValues(9))
-        products_inputs[9][6].editingFinished.connect(lambda:fillValues(10))
-        products_inputs[10][6].editingFinished.connect(lambda:fillValues(11))
-        products_inputs[11][6].editingFinished.connect(lambda:fillValues(12))
-        products_inputs[12][6].editingFinished.connect(lambda:fillValues(13))
-        products_inputs[13][6].editingFinished.connect(lambda:fillValues(14))
-        products_inputs[14][6].editingFinished.connect(lambda:fillValues(15))
-
-    #Listner on SGST
-        products_inputs[0][8].editingFinished.connect(lambda:fillValues(1))
-        products_inputs[1][8].editingFinished.connect(lambda:fillValues(2))
-        products_inputs[2][8].editingFinished.connect(lambda:fillValues(3))
-        products_inputs[3][8].editingFinished.connect(lambda:fillValues(4))
-        products_inputs[4][8].editingFinished.connect(lambda:fillValues(5))
-        products_inputs[5][8].editingFinished.connect(lambda:fillValues(6))
-        products_inputs[6][8].editingFinished.connect(lambda:fillValues(7))
-        products_inputs[7][8].editingFinished.connect(lambda:fillValues(8))
-        products_inputs[8][8].editingFinished.connect(lambda:fillValues(9))
-        products_inputs[9][8].editingFinished.connect(lambda:fillValues(10))
-        products_inputs[10][8].editingFinished.connect(lambda:fillValues(11))
-        products_inputs[11][8].editingFinished.connect(lambda:fillValues(12))
-        products_inputs[12][8].editingFinished.connect(lambda:fillValues(13))
-        products_inputs[13][8].editingFinished.connect(lambda:fillValues(14))
-        products_inputs[14][8].editingFinished.connect(lambda:fillValues(15))
-
-        vendor_inputs[0].editingFinished.connect(fillVendor)
-
-        completer = QCompleter(vendors_names)
-        completer.setCaseSensitivity(False)
-        self.vendor_name.setCompleter(completer)
-
-    #Listener on Buttons
-        self.edit_find.clicked.connect(findClicked)
-        self.new_bill.clicked.connect(newClicked)
-        self.edit_save.clicked.connect(editSaveCliked)
-        self.save_bill.clicked.connect(saveBillClicked)
-        self.print_bill.clicked.connect(printBill)
-    except Exception:
-        pass
+def changeCompany():
+    newClicked()
+    global through
+    through = x.comboBox.currentText()
+    print(through)
+    import_bill_data(through)
+    x.listOfBills.clear()
+    x.listOfBills.addItems(listOfBill)
+    x.print_bill.setEnabled(False)
+    x.edit_save.setEnabled(False)
 
 def generateWarningForInt(x):
     msg = QMessageBox()
@@ -391,76 +411,75 @@ def fillFinalValues():
         pass
 
 def findClicked():
-    try:
-        global previousBillNumber,previousVendorName
-        xlfile = x.listOfBills.currentItem().text()
+    
+    global previousBillNumber,previousVendorName
+    print(through)
+    xlfile = x.listOfBills.currentItem().text()
+    newClicked()
+    wb = load_workbook("C:/Invoicing System/"+through+"/invoices/"+xlfile+".xlsx")
+    sheet = wb['Sheet1']
+    previousBillNumber = sheet['I2'].value
+    previousVendorName = sheet['f5'].value
+    x.invoice_number.setText(sheet['I2'].value)
+    date = list(map(lambda x: int(x),sheet['I3'].value.split("/")))
+    x.date_edit.setDate(QDate(date[2],date[1],date[0]))     
+    vendor_inputs[0].setText(sheet['f5'].value)
+    fillVendor()
 
-        wb = load_workbook("invoices/"+xlfile+".xlsx")
-        sheet = wb['Sheet1']
-        previousBillNumber = sheet['I2'].value
-        previousVendorName = sheet['f5'].value
-        x.invoice_number.setText(sheet['I2'].value)
-        date = list(map(lambda x: int(x),sheet['I3'].value.split("/")))
-        x.date_edit.setDate(QDate(date[2],date[1],date[0]))     
-        vendor_inputs[0].setText(sheet['f5'].value)
-        fillVendor()
+    num = 0
+    for i in range(12,27):
+        if sheet['B'+str(i)].value:
+            num += 1
+        else:
+            break
+    for i in range(num):
+        ch = 'B'
+        for j in range(11):
+            products_inputs[i][j].setText(sheet[ch+str(i+12)].value)
+            ch = chr(ord(ch)+1)
+    
+    x.total_qty.setText(sheet['e27'].value)
+    x.total_tax_val.setText(sheet['g27'].value)
+    x.total_cgst_amt.setText(sheet['i27'].value)
+    x.total_sgst_amt.setText(sheet['k27'].value)
+    x.total_total.setText(sheet['l27'].value)
 
-        num = 0
-        for i in range(12,27):
-            if sheet['B'+str(i)].value:
-                num += 1
-            else:
-                break
-        for i in range(num):
-            ch = 'B'
-            for j in range(11):
-                products_inputs[i][j].setText(sheet[ch+str(i+12)].value)
-                ch = chr(ord(ch)+1)
-        
-        x.total_qty.setText(sheet['e27'].value)
-        x.total_tax_val.setText(sheet['g27'].value)
-        x.total_cgst_amt.setText(sheet['i27'].value)
-        x.total_sgst_amt.setText(sheet['k27'].value)
-        x.total_total.setText(sheet['l27'].value)
+    x.amt_bt.setText(str(sheet['j29'].value))
+    x.amt_cgst.setText(str(sheet['j30'].value))
+    x.amt_sgst.setText(str(sheet['j31'].value))
+    x.amt_gst.setText(str(sheet['j32'].value))
+    x.amt_at.setText(str(sheet['j33'].value))
+    
+    x.print_bill.setEnabled(True)
+    x.edit_save.setEnabled(True)
 
-        x.amt_bt.setText(str(sheet['j29'].value))
-        x.amt_cgst.setText(str(sheet['j30'].value))
-        x.amt_sgst.setText(str(sheet['j31'].value))
-        x.amt_gst.setText(str(sheet['j32'].value))
-        x.amt_at.setText(str(sheet['j33'].value))
-        
-        x.print_bill.setEnabled(True)
-        x.edit_save.setEnabled(True)
 
-    except Exception:
-        pass
 
 def editSaveCliked():
-    try:
-        invoiceNumber = x.invoice_number.text()
-        ven_name = x.vendor_name.text()
 
-        if invoiceNumber == "" or ven_name == "":
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Critical)
-            msg.setText("Please enter invoice number and vendor name?")
-            msg.setWindowTitle("Incomplete form")
-            msg.setStandardButtons(QMessageBox.Ok)        
-        else:
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Critical)
-            msg.setText("Do you want to save the changes in the bill?")
-            msg.setWindowTitle("Edit Bill")
-            msg.setStandardButtons(QMessageBox.Ok|QMessageBox.Cancel)
-            retval = msg.exec_()
-            if retval == 1024:
-                deleteExistingDataInRecords()
-                storeBill(invoiceNumber,ven_name)
-                
-                x.label.setText("Bill Successfully Edited and saved")
-                x.label.setStyleSheet('color: green')
-    except Exception:
-        pass
+    invoiceNumber = x.invoice_number.text()
+    ven_name = x.vendor_name.text()
+
+    if invoiceNumber == "" or ven_name == "":
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Please enter invoice number and vendor name?")
+        msg.setWindowTitle("Incomplete form")
+        msg.setStandardButtons(QMessageBox.Ok)        
+    else:
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Do you want to save the changes in the bill?")
+        msg.setWindowTitle("Edit Bill")
+        msg.setStandardButtons(QMessageBox.Ok|QMessageBox.Cancel)
+        retval = msg.exec_()
+        if retval == 1024:
+            deleteExistingDataInRecords()
+            storeBill(invoiceNumber,ven_name)
+            
+            x.label.setText("Bill Successfully Edited and saved")
+            x.label.setStyleSheet('color: green')
+
 
 def newClicked():
     try:
@@ -479,7 +498,7 @@ def newClicked():
         for a in final_outputs:
             a.setText("")
         disableViews(True)
-        import_bill_data()
+        import_bill_data(through)
         x.listOfBills.clear()
         x.listOfBills.addItems(listOfBill)
         x.label.setText("Tax Invoice")
@@ -497,36 +516,36 @@ def deleteExistingDataInRecords():
     invoiceNumber = previousBillNumber
     
     #deleteing monthwise
-    wb = load_workbook("records/monthwise_record/"+str(date.year())+".xlsx")
+    wb = load_workbook("C:/Invoicing System/"+through+"/records/monthwise_record/"+str(date.year())+".xlsx")
     sheet = wb[months[date.month()]]
     num = sheet.max_row
     for i in range(num,0,-1):
         if sheet['c'+str(i)].value == invoiceNumber:
             sheet.delete_rows(i)
-    wb.save("records/monthwise_record/"+str(date.year())+".xlsx")
+    wb.save("C:/Invoicing System/"+through+"/records/monthwise_record/"+str(date.year())+".xlsx")
 
     #deleting vendorWise
     ven_name = x.vendor_name.text()
-    wb = load_workbook("records/vendorwise_record/"+ven_name+".xlsx")
+    wb = load_workbook("C:/Invoicing System/"+through+"/records/vendorwise_record/"+ven_name+".xlsx")
     sheet = wb['Sheet1']
     num = sheet.max_row
     for i in range(num,0,-1):
         if sheet['d'+str(i)].value == invoiceNumber:
             sheet.delete_rows(i)
-    wb.save("records/vendorwise_record/"+ven_name+".xlsx")
+    wb.save("C:/Invoicing System/"+through+"/records/vendorwise_record/"+ven_name+".xlsx")
 
     #deleting productwise
-    for xl_filename in os.listdir("records/productwise_record"):
-        wb = load_workbook("records/productwise_record/"+xl_filename)
+    for xl_filename in os.listdir("C:/Invoicing System/"+through+"/records/productwise_record"):
+        wb = load_workbook("C:/Invoicing System/"+through+"/records/productwise_record/"+xl_filename)
         sheet = wb["Sheet1"]
         num = sheet.max_row
         row_to_delete = []
         for i in range(num,0,-1):
             if sheet['d'+str(i)].value == invoiceNumber:
                 sheet.delete_rows(i)
-        wb.save("records/productwise_record/"+xl_filename)
+        wb.save("C:/Invoicing System/"+through+"/records/productwise_record/"+xl_filename)
 
-    os.remove("invoices/"+previousBillNumber+"-"+previousVendorName+".xlsx")
+    os.remove("C:/Invoicing System/"+through+"/invoices/"+previousBillNumber+"-"+previousVendorName+".xlsx")
 
 def saveBillClicked():
     
@@ -559,8 +578,15 @@ def saveBillClicked():
 
 def storeBill(invoiceNumber,ven_name):
     
-    copyfile("data/bill_format.xlsx","invoices/"+invoiceNumber+"-"+ven_name+".xlsx")
-    wb = load_workbook("invoices/"+invoiceNumber+"-"+ven_name+".xlsx")
+    link_format= ""
+    if through == "Mousami Foods" :
+        link_format  = "C:/Invoicing System/data/bill_format_mousami_foods.xlsx"
+    else:
+        link_format = "C:/Invoicing System/data/bill_format_mitesh_dhanji_shah.xlsx"
+
+    copyfile(link_format,"C:/Invoicing System/"+through+"/invoices/"+invoiceNumber+"-"+ven_name+".xlsx")
+
+    wb = load_workbook("C:/Invoicing System/"+through+"/invoices/"+invoiceNumber+"-"+ven_name+".xlsx")
     sheet = wb['Sheet1']
     
     sheet['I2'] = invoiceNumber
@@ -602,12 +628,12 @@ def storeBill(invoiceNumber,ven_name):
     sheet['j32'] = float(x.amt_gst.text())
     sheet['j33'] = float(x.amt_at.text())
 
-    wb.save("invoices/"+invoiceNumber+"-"+ven_name+".xlsx")
+    wb.save("C:/Invoicing System/"+through+"/invoices/"+invoiceNumber+"-"+ven_name+".xlsx")
     saveMonthWiseData()
     saveProductWise()
     saveVendorWise()
     
-    import_bill_data()
+    import_bill_data(through)
     x.listOfBills.clear()
     x.listOfBills.addItems(listOfBill)
     x.label.setText("Bill Successfully saved")
@@ -622,7 +648,7 @@ def storeBill(invoiceNumber,ven_name):
 def printBill():
     invoice_number = x.invoice_number.text()
     ven_name = vendor_inputs[0].text()
-    os.startfile("invoices/"+invoice_number + "-" + ven_name+".xlsx",'print')
+    os.startfile("C:/Invoicing System/"+through+"/invoices/"+invoice_number + "-" + ven_name+".xlsx",'print')
 
 def disableViews(val):
     x.invoice_number.setEnabled(val)
@@ -657,10 +683,10 @@ def saveMonthWiseData():
     ven_gst = x.vedor_gst_no.text()
     invoice_number = x.invoice_number.text()
 
-    if not os.path.isfile("records/monthwise_record/"+str(date.year())+".xlsx"):
-        copyfile("data/month-wise-record.xlsx","records/monthwise_record/"+str(date.year())+".xlsx")
+    if not os.path.isfile("C:/Invoicing System/"+through+"/records/monthwise_record/"+str(date.year())+".xlsx"):
+        copyfile("C:/Invoicing System/"+"data/month-wise-record.xlsx","C:/Invoicing System/"+through+"/records/monthwise_record/"+str(date.year())+".xlsx")
 
-    wb = load_workbook("records/monthwise_record/"+str(date.year())+".xlsx")
+    wb = load_workbook("C:/Invoicing System/"+through+"/records/monthwise_record/"+str(date.year())+".xlsx")
     sheet = wb[months[date.month()]]
     numRowToStart = sheet.max_row +1
     print(numRowToStart)
@@ -690,7 +716,7 @@ def saveMonthWiseData():
         sheet["q"+str(numRowToStart+i)] = productData[i][10]
         for col in range(1,18):
             sheet.cell(row = numRowToStart+i,column = col).border = thin_border
-    wb.save("records/monthwise_record/"+str(date.year())+".xlsx")
+    wb.save("C:/Invoicing System/"+through+"/records/monthwise_record/"+str(date.year())+".xlsx")
 
 def saveProductWise():
     numOfProducts = 0
@@ -713,7 +739,7 @@ def saveProductWise():
         if el_productnames[q].text()=="":
             continue
         i+=1
-        wb = load_workbook("records/productwise_record/"+productData[i][0].split("-")[0]+".xlsx")
+        wb = load_workbook("C:/Invoicing System/"+through+"/records/productwise_record/"+productData[i][0].split("-")[0]+".xlsx")
         sheet = wb["Sheet1"]
         numRowToStart = sheet.max_row +1
         print(numRowToStart)
@@ -736,7 +762,7 @@ def saveProductWise():
         sheet["q"+str(numRowToStart)] = productData[i][10]
         for col in range(1,18):
             sheet.cell(row = numRowToStart,column = col).border = thin_border
-        wb.save("records/productwise_record/"+productData[i][0].split("-")[0]+".xlsx")
+        wb.save("C:/Invoicing System/"+through+"/records/productwise_record/"+productData[i][0].split("-")[0]+".xlsx")
 
 def saveVendorWise():
     ven_name = x.vendor_name.text()
@@ -752,10 +778,10 @@ def saveVendorWise():
             numOfProducts = 15 - numOfProducts
             break
 
-    if not os.path.isfile("records/vendorwise_record/"+ven_name+".xlsx"):
-        copyfile("data/vendor-wise-record.xlsx","records/vendorwise_record/"+ven_name+".xlsx")
+    if not os.path.isfile("C:/Invoicing System/"+through+"/records/vendorwise_record/"+ven_name+".xlsx"):
+        copyfile("C:/Invoicing System/"+"data/vendor-wise-record.xlsx","C:/Invoicing System/"+through+"/records/vendorwise_record/"+ven_name+".xlsx")
 
-    wb = load_workbook("records/vendorwise_record/"+ven_name+".xlsx")
+    wb = load_workbook("C:/Invoicing System/"+through+"/records/vendorwise_record/"+ven_name+".xlsx")
     sheet = wb['Sheet1'] 
     numRowToStart = sheet.max_row +1
     print(numRowToStart)
@@ -785,7 +811,7 @@ def saveVendorWise():
         sheet["r"+str(numRowToStart+i)] = productData[i][10]
         for col in range(1,18):
             sheet.cell(row = numRowToStart+i,column = col).border = thin_border
-    wb.save("records/vendorwise_record/"+ven_name+".xlsx")
+    wb.save("C:/Invoicing System/"+through+"/records/vendorwise_record/"+ven_name+".xlsx")
 
 def calcVolume(uom,qty):
     qty = int(qty)

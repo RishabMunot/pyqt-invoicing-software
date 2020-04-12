@@ -22,17 +22,24 @@ from window_bill import Ui_window_bill
     #     f_addProduct(self)
 
     #functionsQtWidgets.QMainWindow()
+
+clicked = ""
+
 def f_createNewBill(self):
+    global clicked
+    clicked = "Mousami Foods"
     self.window_anp = QtWidgets.QMainWindow()
     self.ui = Ui_window_bill()
     self.ui.setupUi(self.window_anp)
     self.window_anp.show()
 
 def f_editBill(self):
-    self.window_anp = QtWidgets.QMainWindow()
-    self.ui = Ui_window_bill()
-    self.ui.setupUi(self.window_anp)
-    self.window_anp.show()
+    global clicked
+    clicked = "Mitesh Dhanji Shah"
+    # self.window_anp = QtWidgets.QMainWindow()
+    # self.ui = Ui_window_bill()
+    # self.ui.setupUi(self.window_anp)
+    # self.window_anp.show()
 
 def f_addVendor(self):
     self.window_anp = QtWidgets.QMainWindow()

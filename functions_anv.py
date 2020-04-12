@@ -53,7 +53,7 @@ def f_add_vendor(self):
     retval = msg.exec_()
     
     if (retval == 1024):
-            wb = load_workbook(filename = 'data/vendors.xlsx')
+            wb = load_workbook(filename = "C:/Invoicing System/"+'data/vendors.xlsx')
             sheet = wb['Sheet1']
             saveAt = str(sheet.max_row+1)
             sheet['A'+saveAt] = name
@@ -66,7 +66,7 @@ def f_add_vendor(self):
             sheet['H'+saveAt] = gstNO
             sheet['I'+saveAt] = panNo
 
-            wb.save('data/vendors.xlsx')
+            wb.save("C:/Invoicing System/"+'data/vendors.xlsx')
 
             self.label.setText("Successfully Added")
             self.label.setStyleSheet('color: green')

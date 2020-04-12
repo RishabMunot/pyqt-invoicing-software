@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>650</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -29,7 +29,7 @@
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>180</y>
+      <y>170</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -43,30 +43,11 @@
      <string>Dashboard</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="create_new_bill">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>230</y>
-      <width>231</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="text">
-     <string>Create new Bill</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="add_product">
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>380</y>
+      <y>270</y>
       <width>231</width>
       <height>41</height>
      </rect>
@@ -79,7 +60,7 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>330</y>
+      <y>220</y>
       <width>231</width>
       <height>41</height>
      </rect>
@@ -88,56 +69,11 @@
      <string>Add Vendor</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="edit_bill">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>280</y>
-      <width>231</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Edit Bill</string>
-    </property>
-   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>create_new_bill</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setAnimated(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>445</x>
-     <y>255</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>621</x>
-     <y>259</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>edit_bill</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>setAnimated(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>495</x>
-     <y>287</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>616</x>
-     <y>295</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>add_vendor</sender>
    <signal>clicked(bool)</signal>

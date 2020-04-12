@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1722</width>
-    <height>857</height>
+    <height>887</height>
    </rect>
   </property>
   <property name="font">
@@ -4446,12 +4446,45 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+    <widget class="QComboBox" name="comboBox">
+     <property name="geometry">
+      <rect>
+       <x>1020</x>
+       <y>160</y>
+       <width>231</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>Mousami Foods</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Mitesh Dhanji Shah</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>1020</x>
+       <y>126</y>
+       <width>112</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Company Name:</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="formLayoutWidget">
     <property name="geometry">
      <rect>
       <x>1300</x>
-      <y>330</y>
+      <y>300</y>
       <width>401</width>
       <height>152</height>
      </rect>
@@ -4548,7 +4581,7 @@
     <property name="geometry">
      <rect>
       <x>1310</x>
-      <y>650</y>
+      <y>610</y>
       <width>131</width>
       <height>151</height>
      </rect>
@@ -4609,7 +4642,7 @@
     <property name="geometry">
      <rect>
       <x>1310</x>
-      <y>510</y>
+      <y>480</y>
       <width>131</width>
       <height>111</height>
      </rect>
@@ -4654,10 +4687,26 @@
     <property name="geometry">
      <rect>
       <x>1460</x>
-      <y>520</y>
+      <y>490</y>
       <width>241</width>
       <height>281</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="refresh">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>790</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Refresh</string>
+    </property>
+    <property name="shortcut">
+     <string>Ctrl+Alt+Ś</string>
     </property>
    </widget>
   </widget>

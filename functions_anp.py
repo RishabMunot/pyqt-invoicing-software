@@ -85,7 +85,7 @@ def f_add_product(self):
             sheet['E'+saveAt] = cgst
             sheet['F'+saveAt] = sgst
 
-            wb.save('data/products.xlsx')
+            wb.save("C:/Invoicing System/"+'data/products.xlsx')
             self.label.setText("Successfully Added")
             self.label.setStyleSheet('color: green')
             self.button_new.setEnabled(True)
@@ -98,8 +98,10 @@ def f_add_product(self):
             self.button_delete.setEnabled(False)
             readyProducts(self)
             from os.path import isfile
-            if not isfile("records/productwise_record/"+name+".xlsx"):
-                copyfile('data/product-wise-record.xlsx',"records/productwise_record/"+name+".xlsx")
+            if not isfile("C:/Invoicing System/"+"Mousami Foods"+"/records/productwise_record/"+name+".xlsx"):
+                copyfile("C:/Invoicing System/"+'data/product-wise-record.xlsx',"C:/Invoicing System/"+"Mousami Foods"+"/records/productwise_record/"+name+".xlsx")
+            if not isfile("C:/Invoicing System/"+"Mitesh Dhanji Shah"+"/records/productwise_record/"+name+".xlsx"):
+                copyfile("C:/Invoicing System/"+'data/product-wise-record.xlsx',"C:/Invoicing System/"+"Mitesh Dhanji Shah"+"/records/productwise_record/"+name+".xlsx")
 
 
 def f_delete_product(self):
@@ -119,7 +121,7 @@ def f_delete_product(self):
         sheet.delete_rows(idx=row, amount=1)
         for i in range(row,sheet.max_row+1):
             sheet["A"+str(i)] = str(i+999)
-        wb.save('data/products.xlsx')
+        wb.save("C:/Invoicing System/"+'data/products.xlsx')
         f_clear_data(self)
         self.label.setText("Product Deleted")
         self.label.setStyleSheet('color: red') 
@@ -172,7 +174,7 @@ def f_edit_product(self):
             sheet['E'+saveAt] = cgst
             sheet['F'+saveAt] = sgst
 
-            wb.save('data/products.xlsx')
+            wb.save("C:/Invoicing System/"+'data/products.xlsx')
             self.label.setText("Successfully Edited")
             self.label.setStyleSheet('color: green')
             self.button_new.setEnabled(True)
@@ -224,7 +226,7 @@ def f_find_product(self):
 def readyProducts(self):
 
     global wb,sheet,data,names
-    wb = load_workbook('data/products.xlsx')
+    wb = load_workbook("C:/Invoicing System/"+'data/products.xlsx')
     sheet = wb['Sheet1']
     names = []
     data = []
