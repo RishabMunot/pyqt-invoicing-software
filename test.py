@@ -90,3 +90,7 @@ import copy
 #             c) folder - Invoicing System 
 # Step 3: Copy Invoicing System folder in C:/ (Strictly!!! No change in file,folder names)
 # Step 4: Shortcuts of above 2 exe files can be created in desktop
+
+sheet = load_workbook("asd/products.xlsx")['Sheet1']
+for i in range(1,sheet.max_row+1):
+    copyfile("C:/Invoicing System/data/product-wise-record.xlsx","asd/"+sheet['b'+str(i)].value+".xlsx")

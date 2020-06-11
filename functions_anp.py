@@ -155,45 +155,52 @@ def f_edit_product(self):
     cgst = self.cgst.text()
     sgst = self.sgst.text()
     hsn = self.hsn_code.text()
-    if init_name == name:
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
 
-        msg.setText("Do you want to Edit Product?")
-        msg.setWindowTitle("Edit Product")
-        msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)	
-        
-        retval = msg.exec_()
-        
-        if (retval == 1024):
-            saveAt = str(int(self.product_id.text())-999)
-            sheet['A'+saveAt] = id
-            sheet['B'+saveAt] = name
-            sheet['C'+saveAt] = uom
-            sheet['D'+saveAt] = hsn
-            sheet['E'+saveAt] = cgst
-            sheet['F'+saveAt] = sgst
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Warning)
 
-            wb.save("C:/Invoicing System/"+'data/products.xlsx')
-            self.label.setText("Successfully Edited")
-            self.label.setStyleSheet('color: green')
-            self.button_new.setEnabled(True)
-            self.product_id.setEnabled(False)
-            setInputs(self,False)
-            self.button_clear.setEnabled(False)
-            self.button_add.setEnabled(False)
-            self.button_find.setEnabled(False)
-            self.button_edit.setEnabled(False)
-            self.button_delete.setEnabled(False)
-            readyProducts(self)
-    else:
-        self.product_name.setText(name)
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setText("Cannot change product name?")
-        msg.setWindowTitle("Edit Product")
-        msg.setStandardButtons(QMessageBox.Ok)	
-        retval = msg.exec_()
+    msg.setText("Do you want to Edit Product?")
+    msg.setWindowTitle("Edit Product")
+    msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)	
+    
+    retval = msg.exec_()
+    
+    if (retval == 1024):
+        if init_name == name:
+            pass
+        else:
+            self.product_name.setText(name)
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setText("Do you want to change Product Name?")
+            msg.setWindowTitle("Edit Product")
+            msg.setStandardButtons(QMessageBox.Yes|QMessageBox.No)	
+            retval = msg.exec_()
+            if retval == 16384:
+                rename("C:/Invoicing System/Mousami Foods/records/productwise_record/"+init_name+".xlsx","C:/Invoicing System/Mousami Foods/records/productwise_record/"+name+".xlsx")
+                rename("C:/Invoicing System/Mitesh Dhanji Shah/records/productwise_record/"+init_name+".xlsx","C:/Invoicing System/Mitesh Dhanji Shah/records/productwise_record/"+name+".xlsx")
+               
+            
+        saveAt = str(int(self.product_id.text())-999)
+        sheet['A'+saveAt] = id
+        sheet['B'+saveAt] = name
+        sheet['C'+saveAt] = uom
+        sheet['D'+saveAt] = hsn
+        sheet['E'+saveAt] = cgst
+        sheet['F'+saveAt] = sgst
+
+        wb.save("C:/Invoicing System/"+'data/products.xlsx')
+        self.label.setText("Successfully Edited")
+        self.label.setStyleSheet('color: green')
+        self.button_new.setEnabled(True)
+        self.product_id.setEnabled(False)
+        setInputs(self,False)
+        self.button_clear.setEnabled(False)
+        self.button_add.setEnabled(False)
+        self.button_find.setEnabled(False)
+        self.button_edit.setEnabled(False)
+        self.button_delete.setEnabled(False)
+        readyProducts(self)
 
 def f_find_product(self):
     global data,names,init_name

@@ -278,7 +278,6 @@ def set_functionalities(self):
 
     self.comboBox.currentIndexChanged.connect(changeCompany)
 
-
 def changeCompany():
     newClicked()
     global through
@@ -342,15 +341,14 @@ def fillValues(a):
 
         else:
             qty = int(qty)
-            rate = int(rate)
+            rate = float(rate)
 
-        taxval = str(qty*rate)
+        taxval = str(round(qty*rate,2))
         products_inputs[a-1][5].setText(taxval)
     except Exception:
         generateWarningForInt(a)
         pass
 
-    try:
         taxval = products_inputs[a-1][5].text()
         cgst = products_inputs[a-1][6].text()
         sgst = products_inputs[a-1][8].text()
@@ -386,74 +384,77 @@ def fillFinalValues():
     tot_sgst = 0
     tot_cgst = 0
     tot_total = 0
-    try:
-        for i in range(15):
-            tot_qty += int(products_inputs[i][3].text())
-            tot_taxval += round(float(products_inputs[i][5].text()),2)
-            tot_sgst += round(float(products_inputs[i][9].text()),2)
-            tot_cgst += round(float(products_inputs[i][7].text()),2)
-            tot_total += round(float(products_inputs[i][10].text()),2)
-        
-        final_outputs[0].setText(str(round(tot_qty,2)))
-        final_outputs[1].setText(str(round(tot_taxval,2)))
-        final_outputs[2].setText(str(round(tot_cgst,2)))
-        final_outputs[3].setText(str(round(tot_sgst,2)))
-        final_outputs[4].setText(str(round(tot_total,2)))
-        final_outputs[5].setText(str(round(tot_taxval,2)))
-        final_outputs[6].setText(str(round(tot_cgst,2)))
-        final_outputs[7].setText(str(round(tot_sgst,2)))
-        final_outputs[8].setText(str(round(tot_cgst+tot_sgst,2)))
-        final_outputs[9].setText(str(round(tot_total,2)))
+    for i in range(15):
+        tot_qty += int(products_inputs[i][3].text())
+        tot_taxval += round(float(products_inputs[i][5].text()),2)
+        tot_sgst += round(float(products_inputs[i][9].text()),2)
+        tot_cgst += round(float(products_inputs[i][7].text()),2)
+        tot_total += round(float(products_inputs[i][10].text()),2)
+    
+    final_outputs[0].setText(str(round(tot_qty,2)))
+    final_outputs[1].setText(str(round(tot_taxval,2)))
+    final_outputs[2].setText(str(round(tot_cgst,2)))
+    final_outputs[3].setText(str(round(tot_sgst,2)))
+    final_outputs[4].setText(str(round(tot_total,2)))
+    final_outputs[5].setText(str(round(tot_taxval,2)))
+    final_outputs[6].setText(str(round(tot_cgst,2)))
+    final_outputs[7].setText(str(round(tot_sgst,2)))
+    final_outputs[8].setText(str(round(tot_cgst+tot_sgst,2)))
+    final_outputs[9].setText(str(round(tot_total,2)))
 
-        x.total_amont_in_words.setText("Amount in words: INR "+convert(float(x.amt_at.text()))+" only")
-
-    except Exception:
-        pass
+    x.total_amont_in_words.setText("Amount in words: INR "+convert(float(x.amt_at.text()))+" only")
 
 def findClicked():
     
     global previousBillNumber,previousVendorName
     print(through)
-    xlfile = x.listOfBills.currentItem().text()
-    newClicked()
-    wb = load_workbook("C:/Invoicing System/"+through+"/invoices/"+xlfile+".xlsx")
-    sheet = wb['Sheet1']
-    previousBillNumber = sheet['I2'].value
-    previousVendorName = sheet['f5'].value
-    x.invoice_number.setText(sheet['I2'].value)
-    date = list(map(lambda x: int(x),sheet['I3'].value.split("/")))
-    x.date_edit.setDate(QDate(date[2],date[1],date[0]))     
-    vendor_inputs[0].setText(sheet['f5'].value)
-    fillVendor()
-
-    num = 0
-    for i in range(12,27):
-        if sheet['B'+str(i)].value:
-            num += 1
-        else:
-            break
-    for i in range(num):
-        ch = 'B'
-        for j in range(11):
-            products_inputs[i][j].setText(sheet[ch+str(i+12)].value)
-            ch = chr(ord(ch)+1)
     
-    x.total_qty.setText(sheet['e27'].value)
-    x.total_tax_val.setText(sheet['g27'].value)
-    x.total_cgst_amt.setText(sheet['i27'].value)
-    x.total_sgst_amt.setText(sheet['k27'].value)
-    x.total_total.setText(sheet['l27'].value)
+    if not x.listOfBills.currentItem():
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Critical)
+        msg.setText("Please select bill from the list")
+        msg.setWindowTitle("Load Bill")
+        msg.setStandardButtons(QMessageBox.Ok)
+        retval = msg.exec_()        
+    else:
+        xlfile = x.listOfBills.currentItem().text()
+        newClicked()
+        wb = load_workbook("C:/Invoicing System/"+through+"/invoices/"+xlfile+".xlsx")
+        sheet = wb['Sheet1']
+        previousBillNumber = sheet['I2'].value
+        previousVendorName = sheet['f5'].value
+        x.invoice_number.setText(sheet['I2'].value)
+        date = list(map(lambda x: int(x),sheet['I3'].value.split("/")))
+        x.date_edit.setDate(QDate(date[2],date[1],date[0]))     
+        vendor_inputs[0].setText(sheet['f5'].value)
+        fillVendor()
 
-    x.amt_bt.setText(str(sheet['j29'].value))
-    x.amt_cgst.setText(str(sheet['j30'].value))
-    x.amt_sgst.setText(str(sheet['j31'].value))
-    x.amt_gst.setText(str(sheet['j32'].value))
-    x.amt_at.setText(str(sheet['j33'].value))
-    
-    x.print_bill.setEnabled(True)
-    x.edit_save.setEnabled(True)
-
-
+        num = 0
+        for i in range(12,27):
+            if sheet['B'+str(i)].value:
+                num += 1
+            else:
+                break
+        for i in range(num):
+            ch = 'B'
+            for j in range(11):
+                products_inputs[i][j].setText(sheet[ch+str(i+12)].value)
+                ch = chr(ord(ch)+1)
+        
+        x.total_qty.setText(sheet['e27'].value)
+        x.total_tax_val.setText(sheet['g27'].value)
+        x.total_cgst_amt.setText(sheet['i27'].value)
+        x.total_sgst_amt.setText(sheet['k27'].value)
+        x.total_total.setText(sheet['l27'].value)
+        x.total_amont_in_words.setText(sheet['a28'].value)
+        x.amt_bt.setText(str(sheet['j29'].value))
+        x.amt_cgst.setText(str(sheet['j30'].value))
+        x.amt_sgst.setText(str(sheet['j31'].value))
+        x.amt_gst.setText(str(sheet['j32'].value))
+        x.amt_at.setText(str(sheet['j33'].value))
+        
+        x.print_bill.setEnabled(True)
+        x.edit_save.setEnabled(True)
 
 def editSaveCliked():
 
@@ -479,7 +480,6 @@ def editSaveCliked():
             
             x.label.setText("Bill Successfully Edited and saved")
             x.label.setStyleSheet('color: green')
-
 
 def newClicked():
     try:
@@ -621,7 +621,8 @@ def storeBill(invoiceNumber,ven_name):
     sheet['i27'] = x.total_cgst_amt.text()
     sheet['k27'] = x.total_sgst_amt.text()
     sheet['l27'] = x.total_total.text()
-
+    print(x.total_amont_in_words.text())
+    sheet['a28'] = x.total_amont_in_words.text()
     sheet['j29'] = float(x.amt_bt.text())
     sheet['j30'] = float(x.amt_cgst.text())
     sheet['j31'] = float(x.amt_sgst.text())
@@ -818,19 +819,19 @@ def calcVolume(uom,qty):
     uom = uom.split(" ")
     vol_unit = ""
     vol_no = ""
-    if uom[1] == "Kg":
+    if uom[1].upper() == "KG":
         vol_no = int(uom[0]) * qty
         vol_unit = "Kg"
-    if uom[1] == "L":
+    if uom[1].upper() == "L":
         vol_no = int(uom[0]) * qty
         vol_unit = "L"
-    if uom[1] == "units":
+    if uom[1].upper() == "UNITS":
         vol_no = int(uom[0]) * qty
         vol_unit = "units"
-    if uom[1] == "gm":
+    if uom[1].upper() == "GM":
         vol_no = int(uom[0]) * qty/1000
         vol_unit = "Kg"
-    if uom[1] == "ml":
+    if uom[1].upper() == "ML":
         vol_no = int(uom[0]) * qty/1000
         vol_unit = "L"
 
